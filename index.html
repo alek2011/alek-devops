@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alek DevOps</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0d0d0d;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Animated gradient background ── */
+    .hero {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, #1a0533 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, #003344 0%, transparent 60%),
+                  radial-gradient(ellipse at 60% 80%, #0a1f0a 0%, transparent 60%);
+      animation: pulse 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.7; }
+      to   { opacity: 1; }
+    }
+
+    /* ── Floating particles ── */
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #7dd3fc;
+      opacity: 0;
+      animation: float var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.8; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    /* ── Hero content ── */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border: 1px solid #7dd3fc44;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      background: #7dd3fc11;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(4px);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff 30%, #7dd3fc 70%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.25rem;
+    }
+
+    .tagline {
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      color: #94a3b8;
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 0.6rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover { transform: translateY(-3px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 0 24px #3b82f655;
+    }
+
+    .btn-primary:hover { box-shadow: 0 0 36px #8b5cf688; }
+
+    .btn-outline {
+      background: transparent;
+      color: #e0e0e0;
+      border: 1px solid #334155;
+    }
+
+    .btn-outline:hover { border-color: #7dd3fc; color: #7dd3fc; }
+
+    /* ── Feature cards ── */
+    .features {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 4rem;
+    }
+
+    .card {
+      background: #ffffff08;
+      border: 1px solid #ffffff12;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .card:hover {
+      border-color: #7dd3fc55;
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #f1f5f9;
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: #475569;
+      border-top: 1px solid #1e293b;
+    }
+
+    footer span { color: #7dd3fc; }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+
+    <!-- Floating particles -->
+    <div class="particles" aria-hidden="true">
+      <div class="particle" style="left:10%; --dur:7s; --delay:0s;"></div>
+      <div class="particle" style="left:25%; --dur:9s; --delay:1.5s;"></div>
+      <div class="particle" style="left:40%; --dur:6s; --delay:0.5s;"></div>
+      <div class="particle" style="left:55%; --dur:8s; --delay:2s;"></div>
+      <div class="particle" style="left:70%; --dur:7s; --delay:1s;"></div>
+      <div class="particle" style="left:82%; --dur:10s; --delay:3s;"></div>
+      <div class="particle" style="left:90%; --dur:6s; --delay:0.8s;"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="badge">🚀 DevOps &amp; Cloud Automation</p>
+      <h1>Alek DevOps</h1>
+      <p class="tagline">
+        Infraestructura moderna, pipelines elegantes y entregas continuas —
+        llevando tus proyectos del código a producción sin fricciones.
+      </p>
+
+      <div class="cta-group">
+        <a href="#features" class="btn btn-primary">Explorar proyectos</a>
+        <a href="https://github.com/alek2011/alek-devops" class="btn btn-outline" target="_blank" rel="noopener">Ver en GitHub</a>
+      </div>
+
+      <!-- Feature cards -->
+      <div class="features" id="features">
+        <div class="card">
+          <div class="card-icon">⚙️</div>
+          <h3>CI / CD</h3>
+          <p>Pipelines automatizados con GitHub Actions para integración y despliegue continuos.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🐳</div>
+          <h3>Contenedores</h3>
+          <p>Imágenes Docker optimizadas y orquestación con Kubernetes lista para producción.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">☁️</div>
+          <h3>Cloud Native</h3>
+          <p>Infraestructura como código con Terraform para entornos reproducibles y escalables.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <h3>Observabilidad</h3>
+          <p>Monitoreo, métricas y alertas para mantener tus servicios siempre en verde.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Hecho con ❤️ por <span>Alek</span> · 2025
+  </footer>
+
+</body>
+</html>
